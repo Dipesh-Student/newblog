@@ -1,0 +1,41 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #121212;
+    color: white;
+    scroll-behavior: smooth;
+}
+
+nav {
+    background-color: #121212;
+    box-shadow: 10px 10px 10px #000;
+}
+
+.container {
+    margin-top: 12vh;
+}
+
+.row {
+    background-color: #121212;
+    color: grey;
+    display: flex;
+}
+
+.col-left,
+.col-mid,
+.col-right {
+    width: 33.33%;
+}
+
+.blog-form form {
+    padding: 5px;
+}
+
+.blog-form form input[type="text"],
+.blog-form form textarea,
+.blog-form form input[type="submit"] {
+    width: 100%;
+    margin: 5px auto;
+}
