@@ -31,7 +31,7 @@
             <!-- Navbar content -->
             <div class="row" style="width: 100%;">
                 <div class="col-left">
-                    <h5>LOGO</h5>
+                    <h5><a href="./">Home</a></h5>
                 </div>
                 <div class="col-mid">
                     <form action="index.php?action=search" method="post" style="display: flex;justify-content: center;align-items: center;">

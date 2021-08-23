@@ -6,8 +6,12 @@ define( "DB_USERNAME", "root" );
 define( "DB_PASSWORD", "" );
 
 define( "CLASS_PATH", "classes" );//path to main class files
+
 define("CLASS_PATH_USER","classes/user/");// path to object user file
 require( CLASS_PATH_USER . "user.php" );
+
+define("CLASS_PATH_POST","classes/post/");// path to object post file
+require(CLASS_PATH_POST . "post.php");
 
 define("TEMPLATE_PATH", "templates" );//path to html templates
 define("TEMPLATE_PATH_USER","templates/user_temp/");

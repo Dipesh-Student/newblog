@@ -157,18 +157,21 @@ class user
     }
 
     public static function get_post_key($key)
-    {   
-        $key = trim($key);
+    {
+        $search = trim($key);
 
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "SELECT * FROM articles WHERE `content`=':key';";
-        $st = $conn->prepare($sql);
-        $st->bindParam(':key', $key);
-        $st->execute();
-        echo $count = $st->rowCount();
-        $resultset = $st->fetchAll();
+        $sql = "SELECT * FROM `articles` WHERE title LIKE :search OR content LIKE :search";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':search', $search, PDO::PARAM_STR);
+        $stmt->execute();
+        echo $count = $stmt->rowCount();
+        $resultset = $stmt->fetchAll();
         $conn = null;
-        //return array("res" => $resultset);
+        if ($count === 0) {
+            return array("error" => "No result for " . $search);
+        } else {
+            return array("res" => $resultset);
+        }
     }
-
 }

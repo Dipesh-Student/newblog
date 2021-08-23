@@ -25,32 +25,37 @@
                     <input class="btn btn-primary" name="makepost" type="submit" value="Post">
                 </form>
                 <div class="error-msg">
-                    <?php 
-                    if(isset($result['error'])){
-                        echo $result['error'];
-                    }
+                    <?php
+                    // if(isset($result['error'])){
+                    //     echo $result['error'];
+                    // }
                     ?>
                 </div>
             </div>
 
             <?php
-            foreach ($r['data'] as $res => $val) {
-                $title = $val['title'];
-                $summary = $val['summary'];
-                $date = $val['publicationDate'];
-                $post_id = $val['id'];
+            if (isset($result['error'])) {
+                echo $result['error'];
+            } else {
+
+                foreach ($result['data'] as $res => $val) {
+                    $title = $val['title'];
+                    $summary = $val['summary'];
+                    $date = $val['publicationDate'];
+                    $post_id = $val['id'];
             ?>
-                <div class="card text-white bg-dark mb-3">
-                    <div class="card-header"><?= $title; ?></div>
-                    <div class="card-body">
-                        <p class="card-text"><?= $summary ?></p>
+                    <div class="card text-white bg-dark mb-3">
+                        <div class="card-header"><?= $title; ?></div>
+                        <div class="card-body">
+                            <p class="card-text"><?= $summary ?></p>
+                        </div>
+                        <div class="card-footer" style="display: flex; justify-content: space-around;">
+                            <label for="date"><?= $date; ?></label>
+                            <a href="index.php?action=view_post&pid=<?= $post_id; ?>" style="text-decoration: none;">View</a>
+                        </div>
                     </div>
-                    <div class="card-footer" style="display: flex; justify-content: space-around;">
-                        <label for="date"><?= $date; ?></label>
-                        <a href="index.php?action=view_post&pid=<?= $post_id; ?>" style="text-decoration: none;">View</a>
-                    </div>
-                </div>
             <?php
+                }
             }
             ?>
         </div>

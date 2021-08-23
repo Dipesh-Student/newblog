@@ -115,10 +115,11 @@ function view_post()
 function search()
 {
     $s = $_POST['search'];
-    echo $s;
-    $r = array();
+    //echo $s;
+    $result = array();
     $post_list = user::get_post_key($s);
-    print_r($post_list);
-    //$r['data'] = $post_list['res'];
-    //header("Location:templates/search.php?s=" . $s);
+    $result['error'] = $post_list['error'];
+    $result['data'] = $post_list['res'];
+    
+    require(TEMPLATE_PATH . "/search.php");
 }
