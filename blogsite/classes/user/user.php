@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to complete login request
  */
@@ -21,6 +20,9 @@ class user
         $this->cpass = password_hash($data['cpassword'], PASSWORD_DEFAULT);
     }
 
+    /**
+     * check username and password if exists start session with required values
+     */
     public static function verify_user_login($username, $password)
     {
         try {
@@ -32,16 +34,17 @@ class user
             $stmt->execute();
             $row = $stmt->rowCount();
             if ($row === 0) {
-                //not registered
+                // case user not registered
                 echo "Not registered";
             } else {
-                //registered
+                // case user is registered
                 $resultset = $stmt->fetch();
                 $db_pass = $resultset['userpass'];
                 if (password_verify($password, $db_pass)) {
                     echo "valid password";
                     $_SESSION['username'] = $username;
                     $_SESSION['isloggedin'] = true;
+                    //header("Location:index.php");
                 } else {
                     echo "invalid credentials";
                 }
@@ -51,6 +54,9 @@ class user
         }
     }
 
+    /**
+     * register user 
+     */
     public static function register_user($email, $password, $cpass)
     {
         $email = trim($email);
@@ -106,6 +112,9 @@ class user
         return $error_message;
     }
 
+    /**
+     * create post function 
+     */
     public static function make_post($user, $title, $summary, $content)
     {
         $error_message = null;
@@ -131,6 +140,9 @@ class user
         return $error_message;
     }
 
+    /**
+     * return all records as array of data
+     */
     public static function get_all_post()
     {
 
@@ -143,6 +155,9 @@ class user
         return array("res" => $resultset);
     }
 
+    /**
+     * return record for @param int $id as array of data
+     */
     public static function get_post_byid($id)
     {
 
@@ -156,6 +171,9 @@ class user
         return array("res" => $resultset);
     }
 
+    /**
+     * return record for @param string $key as array of data
+     */
     public static function get_post_key($key)
     {
         $search = trim($key);
@@ -170,6 +188,29 @@ class user
         $conn = null;
         if ($count === 0) {
             return array("error" => "No result for " . $search);
+        } else {
+            return array("res" => $resultset);
+        }
+    }
+
+    /**
+     * return record for @param string $username as array of data /LOGGED IN USER
+     */
+
+    public static function get_post_user($user)
+    {
+        $username = trim($user);
+
+        $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $sql = "SELECT * FROM `articles` WHERE username=:username;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        echo $count = $stmt->rowCount();
+        $resultset = $stmt->fetchAll();
+        $conn = null;
+        if ($count === 0) {
+            return array("error" => " You haven't made any post yet ");
         } else {
             return array("res" => $resultset);
         }

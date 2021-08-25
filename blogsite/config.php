@@ -1,6 +1,6 @@
 <?php 
 ini_set( "display_errors", true );//false on live server
-date_default_timezone_set( "Asia/Kolkata" );  // http://www.php.net/manual/en/timezones.php
+//date_default_timezone_set( "Asia/Kolkata" );  // http://www.php.net/manual/en/timezones.php
 define( "DB_DSN", "mysql:host=localhost;dbname=cms" );
 define( "DB_USERNAME", "root" );
 define( "DB_PASSWORD", "" );
@@ -20,10 +20,12 @@ define( "HOMEPAGE_NUM_ARTICLES", 5 );//no of articles to be shown on homepage
 define( "ADMIN_USERNAME", "dipesh" );//
 define( "ADMIN_PASSWORD", "dipesh" );
 
-function handleException( $exception ) {
-  echo "Sorry, a problem occurred. Please try later.";
-  error_log( $exception->getMessage() );
-}
+require("classes/basic_fun.php");
 
-set_exception_handler( 'handleException' );
+// function handleException( $exception ) {
+//   echo "Sorry, a problem occurred. Please try later.";
+//   error_log( $exception->getMessage() );
+// }
+
+// set_exception_handler( 'handleException' );
 ?>

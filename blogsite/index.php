@@ -2,6 +2,13 @@
 require("config.php");
 session_start();
 
+/**
+ * if exists bind session username to variable  
+ */
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+}
+
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 switch ($action) {
@@ -23,6 +30,9 @@ switch ($action) {
     case 'search':
         search();
         break;
+    case 'myprofile':
+        myprofile();
+        break;
     default:
         home();
         break;
@@ -36,21 +46,28 @@ function login()
     $result = new ArrayObject();
 
     /**
-     * CASE : '1'  if form is post submit pass post variable to perform login checks using
-     * verify_user_login 
-     */
-    if (isset($_POST['login'])) {
-        echo user::verify_user_login($_POST['username'], $_POST['upassword']);
-    }
-
-    /**
-     *  CASE : '2' perform checks if user has already logged in
+     *  CASE : '1' perform checks if user has already logged in
      * CHECKING SESSION HAS VALUES
      * else load login form
      */
+
+    /**
+     * CASE : '2'  if form is post submit pass post variable to perform login checks using
+     * verify_user_login 
+     */
     if (isset($_SESSION['username']) && isset($_SESSION['upassword'])) {
-        home(); //load homepage
-        print_r($_SESSION);
+        echo "Already logged in";
+        print_r($_SESSION['username']);
+    } elseif (isset($_POST['login'])) {
+        echo user::verify_user_login($_POST['username'], $_POST['upassword']);
+        echo "hi";
+        if (isset($_SESSION['username'])) {
+            // print_r($_SESSION['username']);
+            // require(TEMPLATE_PATH . "/homepage.php");
+            home();
+        } else {
+            echo "session empty";
+        }
     } else {
         $result['pagetitle'] = "try login";
 
@@ -120,6 +137,31 @@ function search()
     $post_list = user::get_post_key($s);
     $result['error'] = $post_list['error'];
     $result['data'] = $post_list['res'];
-    
+
     require(TEMPLATE_PATH . "/search.php");
+}
+
+function myprofile()
+{
+    //$u = trim($_SESSION['username']);
+    // if (isset($_SESSION['username'])) {
+    //     $result['username'] = $_SESSION['username'];
+    //     $result['pagetitle'] = "Profile " . $result['username'];
+
+    //     $data = user::get_post_user($result['username']);
+    //     require(TEMPLATE_PATH . "/myprofile.php");
+    // } else {
+    //     echo "n";
+    // }
+    if(isset($_SESSION['username'])){
+        $r = array();
+        $post_list = user::get_post_user($_SESSION['username']);
+        $r['data'] = $post_list['res'];
+        require(TEMPLATE_PATH . "/homepage.php");
+    }
+    else{
+        echo "Can't show any post's from your profile";
+    }
+
+    
 }
