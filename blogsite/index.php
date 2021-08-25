@@ -59,8 +59,8 @@ function login()
         echo "Already logged in";
         print_r($_SESSION['username']);
     } elseif (isset($_POST['login'])) {
-        echo user::verify_user_login($_POST['username'], $_POST['upassword']);
-        echo "hi";
+        user::verify_user_login($_POST['username'], $_POST['upassword']);
+        //echo "hi";
         if (isset($_SESSION['username'])) {
             // print_r($_SESSION['username']);
             // require(TEMPLATE_PATH . "/homepage.php");
@@ -143,25 +143,13 @@ function search()
 
 function myprofile()
 {
-    //$u = trim($_SESSION['username']);
-    // if (isset($_SESSION['username'])) {
-    //     $result['username'] = $_SESSION['username'];
-    //     $result['pagetitle'] = "Profile " . $result['username'];
-
-    //     $data = user::get_post_user($result['username']);
-    //     require(TEMPLATE_PATH . "/myprofile.php");
-    // } else {
-    //     echo "n";
-    // }
     if(isset($_SESSION['username'])){
         $r = array();
         $post_list = user::get_post_user($_SESSION['username']);
         $r['data'] = $post_list['res'];
-        require(TEMPLATE_PATH . "/homepage.php");
+        require(TEMPLATE_PATH . "/myprofile.php");
     }
     else{
         echo "Can't show any post's from your profile";
     }
-
-    
 }
